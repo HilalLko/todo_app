@@ -23,6 +23,7 @@ Then in file ".env" complete this database configuration:
 * DB_USERNAME=root
 * DB_PASSWORD=
 
+
 ### Set APP_URL
 
 > If your project url looks like: example.com/sub-folder 
@@ -53,6 +54,11 @@ $ npm run dev
 $ npm run dev
 ```
 
+### Set QUEUE_CONNECTION
+``` bash
+# change Queue Connection/Drviver from Sync to
+QUEUE_CONNECTION=database
+```
 ## Usage
 
 ``` bash
