@@ -68,6 +68,9 @@ $ php artisan serve
 # Or start local server with port number
 $ php artisan serve --port=4041
 
+# Run queue worker
+$ php artisan queue:work
+
 # test
 $ php vendor/bin/phpunit
 ```
