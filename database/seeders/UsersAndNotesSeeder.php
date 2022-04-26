@@ -60,7 +60,7 @@ class UsersAndNotesSeeder extends Seeder
         ]);
         /*  insert users   */
         $super = User::create([ 
-            'name' => 'admin',
+            'name' => 'Hilal Super',
             'email' => 'hilal_rf+super@hotmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('Super@123$'), // password
@@ -68,10 +68,8 @@ class UsersAndNotesSeeder extends Seeder
             'menuroles' => 'super,admin,user' 
         ]);
         $super->assignRole('super');
-        $super->assignRole('admin');
-        $super->assignRole('user');
         $user = User::create([ 
-            'name' => 'admin',
+            'name' => 'Hilal Admin',
             'email' => 'hilal_rf+admin@hotmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('Admin@123$'), // password
@@ -79,6 +77,14 @@ class UsersAndNotesSeeder extends Seeder
             'menuroles' => 'user,admin' 
         ]);
         $user->assignRole('admin');
-        $user->assignRole('user');
+        $normal = User::create([ 
+            'name' => 'Hilal User',
+            'email' => 'hilal_rf+user@hotmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('User@123$'), // password
+            'remember_token' => Str::random(10),
+            'menuroles' => 'user' 
+        ]);
+        $normal->assignRole('user');
     }
 }

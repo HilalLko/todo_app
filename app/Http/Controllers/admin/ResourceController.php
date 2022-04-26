@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Models;
 use Illuminate\Support\Facades\DB;
@@ -23,13 +24,14 @@ class ResourceController extends Controller
     public function index($table, Request $request)
     {
         $role = Role::where('name', '=', 'guest')->first();
+        $guestHasPermission = false;
         try {
             if($role->hasPermissionTo('browse bread ' . $table)){
                 $guestHasPermission = true;
             }
         } catch (\Throwable $e) {
             $guestHasPermission = false;
-        }       
+        }   
         if(!$guestHasPermission){
             if(empty(Auth::user())){
                 abort('401');

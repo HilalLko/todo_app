@@ -1,9 +1,11 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
+use Illuminate\Support\Facades\DB;
 class MenusTableSeeder extends Seeder
 {
     private $menuId = null;
@@ -136,21 +138,20 @@ class MenusTableSeeder extends Seeder
             'name' => 'sidebar menu'
         ]);
         $this->menuId = DB::getPdo()->lastInsertId();  //set menuId
-        $this->insertLink('user,admin,super', 'Dashboard', '/sitemaster/', 'cil-speedometer');
+        $this->insertLink('admin,super', 'Dashboard', '/sitemaster/dashboard', 'cil-speedometer');
         $this->beginDropdown('admin,super', 'User Management', 'cil-user');    
-            $this->insertLink('super,admin', 'Partially Registered','/sitemaster/partial-users');
-            $this->insertLink('super,admin', 'Review Request','/sitemaster/review-requests');
-            $this->insertLink('super,admin', 'Approved Registered','/sitemaster/users');
+            $this->insertLink('super', 'Admin','/sitemaster/admins');
+            $this->insertLink('super,admin', 'Registered User','/sitemaster/users');
         $this->endDropdown();
-        
-        
-        $this->beginDropdown('admin,super', 'Settings', 'cil-calculator');    
+        $this->beginDropdown('super,admin', 'Activities', 'cil-task');    
+            $this->insertLink('super,admin', 'Global Activities','/sitemaster/global-activities');
+            $this->insertLink('super,admin', 'User Activities','/sitemaster/user-activities');
+        $this->endDropdown();
+        $this->beginDropdown('super', 'Settings', 'cil-calculator');    
             $this->insertLink('super', 'Edit menu',               '/sitemaster/menu/menu');
             $this->insertLink('super', 'Edit menu elements',      '/sitemaster/menu/element');
-            $this->insertLink('admin,super', 'Edit roles',              '/sitemaster/roles');
-            $this->insertLink('admin,super', 'Media',                   '/sitemaster/media');
-            $this->insertLink('admin,super', 'BREAD',                   '/sitemaster/bread');
-            $this->insertLink('admin,super', 'Email',                   '/sitemaster/mail');
+            $this->insertLink('super', 'Edit roles',              '/sitemaster/roles');
+            $this->insertLink('super', 'BREAD',                   '/sitemaster/bread');
         $this->endDropdown();
         $this->insertLink('guest', 'Login', '/sitemaster/login', 'cil-account-logout');
 
@@ -159,17 +160,14 @@ class MenusTableSeeder extends Seeder
             'name' => 'top menu'
         ]);
         $this->menuId = DB::getPdo()->lastInsertId();  //set menuId
-        $this->beginDropdown('guest,user,admin', 'Pages');
-        $id = $this->insertLink('guest,user,admin', 'Dashboard',    '/');
-        $id = $this->insertLink('user,admin,super', 'Notes',              '/sitemaster/notes');
+        $this->beginDropdown('admin', 'Pages');
+        $id = $this->insertLink('admin', 'Dashboard',    'sitemaster/dashboard');
         $id = $this->insertLink('admin,super', 'Users',                   '/sitemaster/users');
         $this->endDropdown();
-        $id = $this->beginDropdown('admin,super', 'Settings');
-
+        $id = $this->beginDropdown('super', 'Settings');
         $id = $this->insertLink('super', 'Edit menu',               '/sitemaster/menu/menu');
         $id = $this->insertLink('super', 'Edit menu elements',      '/sitemaster/menu/element');
         $id = $this->insertLink('super', 'Edit roles',              '/sitemaster/roles');
-        $id = $this->insertLink('admin/super', 'Media',                   '/sitemaster/media');
         $id = $this->insertLink('super', 'BREAD',                   '/sitemaster/bread');
         $this->endDropdown();
 

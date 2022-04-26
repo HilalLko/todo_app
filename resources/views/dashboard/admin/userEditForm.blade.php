@@ -11,7 +11,7 @@
                       <i class="fa fa-align-justify"></i> {{ __('Edit') }} {{ $user->name }}</div>
                     <div class="card-body">
                         <br>
-                        <form method="POST" action="/users/{{ $user->id }}">
+                        <form method="POST" action="/sitemaster/users/{{ $user->id }}">
                             @csrf
                             @method('PUT')
                             <div class="input-group mb-3">

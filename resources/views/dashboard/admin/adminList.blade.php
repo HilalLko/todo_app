@@ -23,25 +23,25 @@
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach($users as $user)
+                          @foreach($admins as $admin)
                             <tr>
-                              <td>{{ $user->name }}</td>
-                              <td>{{ $user->email }}</td>
-                              <td>{{ $user->menuroles }}</td>
-                              <td>{{ $user->email_verified_at }}</td>
+                              <td>{{ $admin->name }}</td>
+                              <td>{{ $admin->email }}</td>
+                              <td>{{ $admin->menuroles }}</td>
+                              <td>{{ $admin->email_verified_at }}</td>
                               <td>
-                                <a href="{{ url('/sitemaster/users/' . $user->id) }}" class="btn btn-block btn-primary">View</a>
+                                <a href="{{ url('/sitemaster/users/' . $admin->id) }}" class="btn btn-block btn-primary">View</a>
                               </td>
                               <td>
-                                <a href="{{ url('/sitemaster/users/' . $user->id . '/edit') }}" class="btn btn-block btn-primary">Edit</a>
+                                <a href="{{ url('/sitemaster/users/' . $admin->id . '/edit') }}" class="btn btn-block btn-primary">Edit</a>
                               </td>
                               <td>
-                                @if( auth()->user()->id !== $user->id )                                
-                                <form action="{{ route('users.destroy', $user->id ) }}" method="POST">
+                                @if( auth()->user()->id !== $admin->id )
+                                <form action="{{ route('users.destroy', $admin->id ) }}" method="POST">
                                     @method('DELETE')
                                     @csrf
                                     <button class="btn btn-block btn-danger">Delete User</button>
-                                </form>                
+                                </form>
                                 @endif
                               </td>
                             </tr>
