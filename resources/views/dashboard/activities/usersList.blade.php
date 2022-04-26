@@ -15,6 +15,7 @@
                           <tr>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>User</th>
                             <th>On Date</th>
                             <th>Image</th>
                             <th></th>
@@ -22,10 +23,11 @@
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach($activities as $activity)
+                          @foreach($activities as $activity)              
                             <tr>
                               <td>{{ $activity->activity_title }}</td>
                               <td>{{ $activity->activity_description }}</td>
+                              <td>{{ $activity->user->name }}</td>
                               <td>{{ $activity->on_date }}</td>
                               <td>{{ $activity->activity_image }}</td>                            
                               <td>
