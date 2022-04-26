@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -15,6 +16,7 @@ class User extends Authenticatable
     use SoftDeletes;
     use HasRoles;
     use HasFactory;
+    use HasApiTokens;
     
     protected $table = 'users';
 
@@ -52,4 +54,24 @@ class User extends Authenticatable
     protected $attributes = [ 
         'menuroles' => 'user',
     ];
+
+    
+    /**
+     * User JSON Object     
+     * @return array
+     */
+    public function getUserObject($authToken="")
+    {
+        $udata = array();
+        $send = array();
+        $udata['user_id'] = $this->id;
+        $udata['full_name'] = $this->name;
+        $udata['email'] = $this->email;
+        $udata['role'] = $this->menuroles;
+        if ($authToken != "") {
+            $udata['auth_token'] = $authToken;
+        }
+        $send['user_data'] = $udata;
+        return $send;
+    }
 }

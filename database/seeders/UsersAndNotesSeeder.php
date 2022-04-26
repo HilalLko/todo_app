@@ -63,28 +63,37 @@ class UsersAndNotesSeeder extends Seeder
             'name' => 'Hilal Super',
             'email' => 'hilal_rf+super@hotmail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('Super@123$'), // password
+            'password' => bcrypt('Super@123$'),
             'remember_token' => Str::random(10),
-            'menuroles' => 'super,admin,user' 
+            'menuroles' => 'super' 
         ]);
         $super->assignRole('super');
         $user = User::create([ 
             'name' => 'Hilal Admin',
             'email' => 'hilal_rf+admin@hotmail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('Admin@123$'), // password
+            'password' => bcrypt('Admin@123$'),
             'remember_token' => Str::random(10),
-            'menuroles' => 'user,admin' 
+            'menuroles' => 'admin' 
         ]);
         $user->assignRole('admin');
-        $normal = User::create([ 
-            'name' => 'Hilal User',
-            'email' => 'hilal_rf+user@hotmail.com',
+        $normal1 = User::create([ 
+            'name' => 'Normal User',
+            'email' => 'normal@user.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('User@123$'), // password
+            'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
             'menuroles' => 'user' 
         ]);
-        $normal->assignRole('user');
+        $normal1->assignRole('user');
+        $normal2 = User::create([ 
+            'name' => 'Normal User2',
+            'email' => 'normal2@user.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'remember_token' => Str::random(10),
+            'menuroles' => 'user' 
+        ]);
+        $normal2->assignRole('user');
     }
 }

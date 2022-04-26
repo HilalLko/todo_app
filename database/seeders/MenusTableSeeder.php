@@ -141,7 +141,7 @@ class MenusTableSeeder extends Seeder
         $this->insertLink('admin,super', 'Dashboard', '/sitemaster/dashboard', 'cil-speedometer');
         $this->beginDropdown('admin,super', 'User Management', 'cil-user');    
             $this->insertLink('super', 'Admin','/sitemaster/admins');
-            $this->insertLink('super,admin', 'Registered User','/sitemaster/users');
+            $this->insertLink('admin,super', 'Registered User','/sitemaster/users');
         $this->endDropdown();
         $this->beginDropdown('super,admin', 'Activities', 'cil-task');    
             $this->insertLink('super,admin', 'Global Activities','/sitemaster/global-activities');
@@ -160,8 +160,8 @@ class MenusTableSeeder extends Seeder
             'name' => 'top menu'
         ]);
         $this->menuId = DB::getPdo()->lastInsertId();  //set menuId
-        $this->beginDropdown('admin', 'Pages');
-        $id = $this->insertLink('admin', 'Dashboard',    'sitemaster/dashboard');
+        $this->beginDropdown('super', 'Pages');
+        $id = $this->insertLink('admin,super', 'Dashboard',    'sitemaster/dashboard');
         $id = $this->insertLink('admin,super', 'Users',                   '/sitemaster/users');
         $this->endDropdown();
         $id = $this->beginDropdown('super', 'Settings');

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Models\GlobalActivity;
 use App\Models\UserActivity;
+use App\Jobs\CreateUserActivities;
 
 use Carbon\Carbon;
 
@@ -68,9 +69,8 @@ class ActivitiesController extends Controller
                     $activity->activity_image = $path;
                 }    
                 if ($activity->save()) {
-                    // if ($request->has('user_id') && $request->user_id != "") {
-                    //     $activity = new UserActivity;
-                    // }   
+                    $user_id = $request->user_id ?? 0;   
+                    CreateUserActivities::dispatch($activity,$user_id);   
                     $return = array('code' => 200, 'message' => 'Ok', 'data' => $activity); 
                 } else {
                    $return = array('code' => 400, 'message' => 'Something went wrong', 'data' => []);
