@@ -23,5 +23,13 @@ class UserActivity extends Model
     public function globalActivity()
     {
         return $this->belongsTo(GlobalActivity::class);
+    }
+
+    /**
+     * Get the User that owns the User Activity.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }    
 }
