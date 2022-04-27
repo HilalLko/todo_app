@@ -41,7 +41,7 @@ Route::prefix('sitemaster')->group(function () {
             'destroy'   => 'resource.destroy'
         ]);
         Route::get('/admins',[UsersController::class, 'getAdminUsers'])->name('admin.admins');        
-        Route::group(['middleware' => ['role:super']], function () {
+        Route::group(['middleware' => ['role:super|admin']], function () {
             Route::resource('bread', BreadController::class);
             Route::resource('users', UsersController::class)->except( ['create', 'store'] );
             Route::resource('roles', RolesController::class);

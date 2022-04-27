@@ -31,5 +31,16 @@ class UserActivity extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function JSONObject()
+    {
+        $send = array();
+        $send['activity_id'] = $this->id;
+        $send['activity_title'] = $this->activity_title;
+        $send['activity_description'] = $this->activity_description;
+        $send['on_date'] = $this->on_date;
+        $send['user_assigned'] = ($this->global_activity_id) ? true : false;
+        return $send;
     }    
 }
