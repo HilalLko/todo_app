@@ -20,4 +20,5 @@ Route::post('/users/signin', [UsersController::class, 'userLogin'])->name('api.u
 Route::post('/users/signup', [UsersController::class, 'createUser'])->name('api.users.register');
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/users/signout', [UsersController::class, 'userLogout'])->name('api.b2b.users.logout');
+    Route::get('/users/user-activities', [UsersController::class, 'userActivities'])->name('api.b2b.users.logout');
 });

@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use App\Models\User;
+use App\Models\UserActivity;
+
+use Carbon\Carbon;
 
 class UsersController extends BaseController
 {
@@ -15,10 +18,15 @@ class UsersController extends BaseController
      * @var User
      */
     protected $userModel;
+    /**
+     * @var UserActivity
+     */
+    protected $userActivityModel;
 
-    public function __construct(User $userModel)
+    public function __construct(User $userModel, UserActivity $userActivityModel)
     {
         $this->user_model = $userModel;
+        $this->user_activity_model = $userActivityModel;
     }
     
     /**
@@ -45,7 +53,7 @@ class UsersController extends BaseController
     }
 
     /**
-     * @group  User Register/Create User
+     * @group  User Login
      * Create New User
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -75,7 +83,7 @@ class UsersController extends BaseController
     }
 
     /**
-     * @group  User Loout
+     * @group  User Login
      * Logout User
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -87,5 +95,35 @@ class UsersController extends BaseController
             return $this->sendResponse('You are logged out successfully', 'You are logged out successfully');
         } 
         return $this->sendError(trans('messages.server_error'), trans('messages.server_error'), 401);
+    }
+
+    /**
+     * @group  User Activities
+     * Get List of User Activities
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function userActivities(Request $request)
+    {
+        $polArr = array();
+        $result = array();
+        $date_range = $request->date_range ?? '';
+        $userActivities = $this->user_activity_model::where('user_id',$request->user()->id)
+        ->when($date_range != "", function ($q) use ($date_range) {
+            $rangeExploaded = explode('-', $date_range);
+            $date1 = Carbon::createFromFormat('d/m/Y', $rangeExploaded[0]);
+            $date2 = Carbon::createFromFormat('d/m/Y', $rangeExploaded[1]);
+            return $q->whereBetween('on_date', [$date1->format('Y-m-d'),$date2->format('Y-m-d')]);
+        })
+        ->paginate(10);
+        foreach ($userActivities as $userActivity) {
+            $actArr[] = $userActivity->JSONObject();
+            $result['activities'] = $actArr;
+        }     
+        $result['pagination']['count'] = $userActivities->total();
+        $result['pagination']['currentPage'] = $userActivities->currentPage();
+        $result['pagination']['lastPage'] = $userActivities->lastPage();
+        $result['pagination']['total'] = count($userActivities->items());
+        return $this->sendResponse($result,'Account Top-up successful');
     }
 }
