@@ -16,6 +16,7 @@ class Super
     public function handle($request, Closure $next)
     {
         $roles = explode(',', $request->user()->menuroles);
+        dd($roles);
         if ( ! in_array('super', $roles) ) {
             return abort( 401 );
         }

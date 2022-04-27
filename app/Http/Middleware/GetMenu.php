@@ -22,6 +22,7 @@ class GetMenu
     public function handle($request, Closure $next)
     {
         if (Auth::check()){
+
             $role = 'guest';
             //$role =  Auth::user()->menuroles;
             $userRoles = Auth::user()->getRoleNames();
