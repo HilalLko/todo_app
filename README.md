@@ -82,3 +82,9 @@ Click "Login" on sidebar menu and log in with credentials:
 * Password: _Admin@123$_
 
 The above user is an Admin role user.
+
+``` bash
+#Link for postman collection
+https://www.getpostman.com/collections/efb31b7182d3d1ac5e53
+#Ends
+```
