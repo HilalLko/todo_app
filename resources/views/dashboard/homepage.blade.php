@@ -10,7 +10,7 @@
       
     </div>
   </div>
-  <div class="modal fade" id="schedule-add" tabindex="-1" aria-labelledby="Schedule-add" aria-hidden="true">
+  <div class="modal fade" id="activity-add" tabindex="-1" aria-labelledby="Schedule-add" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -45,12 +45,12 @@
   
 
   <!-- Edit Modal -->
-  <div class="modal fade" id="schedule-edit">
+  <div class="modal fade" id="activity-view">
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Edit Your Schedule</h4>
+          <h4 class="modal-title">View Activity</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- Modal body -->
@@ -58,21 +58,16 @@
           <div class="form-group">
             <label>Title</label>
             <input type="hidden" name="on_date" id="on_date">
-            <input type="text" placeholder="Title" id="activity_title" name="activity_title" class="form-control">
+            <input type="text" disabled placeholder="Title" id="activity_title_show" class="form-control">
           </div>
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" name="activity_description" id="activity_description" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="formFile">Image</label>
-            <input class="form-control" id="activity_image" name="activity_image" type="file">
-          </div>
+            <textarea class="form-control" id="activity_description_show" disabled></textarea>
+          </div>          
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-success">Save Your Schedule</button>
+          <button type="button" class="btn btn-danger" id="btnClosePopup1"  data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -86,7 +81,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script>
     $(document).ready(function () {
-      var addModal = new coreui.Modal(document.getElementById('schedule-add'), {
+      var addModal = new coreui.Modal(document.getElementById('activity-add'), {
+        keyboard: true
+      });
+      var viewModal = new coreui.Modal(document.getElementById('activity-view'), {
         keyboard: true
       });
       var ADDURL = "{{ route('admin.activity.add') }}";
@@ -114,46 +112,25 @@
           $('#on_date').val(event_start.format('Y-MM-DD'));
           addModal.show();
         },
-        eventDrop: function (event, delta) {
-            var event_start = $.fullCalendar.formatDate(event.start, "Y-MM-DD");
-            var event_end = $.fullCalendar.formatDate(event.end, "Y-MM-DD");
-            $.ajax({
-                url: SITEURL + '/calendar-crud-ajax',
-                data: {
-                    title: event.event_name,
-                    start: event_start,
-                    end: event_end,
-                    id: event.id,
-                    type: 'edit'
-                },
-                type: "POST",
-                success: function (response) {
-                    displayMessage("Event updated");
-                }
-            });
-        },
         eventClick: function (event) {
-          console.log(event);
-          // var eventDelete = confirm("Are you sure?");
-          // if (eventDelete) {
-          //     $.ajax({
-          //         type: "POST",
-          //         url: SITEURL + '/calendar-crud-ajax',
-          //         data: {
-          //             id: event.id,
-          //             type: 'delete'
-          //         },
-          //         success: function (response) {
-          //             calendar.fullCalendar('removeEvents', event.id);
-          //             displayMessage("Event removed");
-          //         }
-          //     });
-          // }
+          $.ajax({
+              url: ADDURL +'/'+event.id,
+              type: "GET",
+              success: function (response) {
+                $('#activity_title_show').val(response.data.activity_title);
+                $('#activity_description_show').val(response.data.activity_description);
+                viewModal.show();
+              }
+          });
         }        
       });
       $("#btnClosePopup").click(function () {
         addModal.hide();
-        //displayInfoMessage('Popup Closed');
+      });
+      $("#btnClosePopup1").click(function () {
+        $('#activity_title_show').val('');
+        $('#activity_description_show').val('');
+        viewModal.hide();
       });
 
       //$('body').on('submit', '#add_activity_form',function(e) {

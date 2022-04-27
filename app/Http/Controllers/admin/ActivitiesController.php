@@ -93,4 +93,22 @@ class ActivitiesController extends Controller
         return view('dashboard.activities.usersList', compact('activities'));
     }
 
+
+    /**
+     * Function responsible for getting Global Activty details
+     * @param int $activity
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getGlobalActivity(Request $request,$activity=0)
+    {
+        if ($activity > 0) {
+            $global = GlobalActivity::find($activity);
+            $return = array('code' => 200, 'message' => 'Ok', 'data' => $global); 
+        } else {
+            $return = array('code' => 400, 'message' => 'Something went wrong', 'data' => []);
+        }
+        return response()->json($return);
+    }
+
 }

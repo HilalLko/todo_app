@@ -29,6 +29,7 @@ Route::prefix('sitemaster')->group(function () {
         Route::get('/dashboard',[ActivitiesController::class, 'index'])->name('admin.dashboard');
         Route::get('/global-activities',[ActivitiesController::class, 'getGlobalActivities'])->name('admin.global_activities');
         Route::post('/global-activities',[ActivitiesController::class, 'addGlobalActivity'])->name('admin.activity.add');
+        Route::get('/global-activities/{activity}',[ActivitiesController::class, 'getGlobalActivity'])->name('admin.activity.view');
         Route::get('/user-activities',[ActivitiesController::class, 'getUserActivities'])->name('admin.global_activities');
         Route::resource('resource/{table}/resource', ResourceController::class)->names([
             'index'     => 'resource.index',
