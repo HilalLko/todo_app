@@ -89,7 +89,17 @@ class ActivitiesController extends Controller
      */
     public function getUserActivities(Request $request)
     {
-        $activities = UserActivity::orderBy('id','DESC')->paginate(5);
+        $activities = UserActivity::orderBy('id','DESC')
+        ->when($request->user != "", function ($q) use ($request) {
+            return $q->where('user_id', $request->user);
+        })
+        ->when($request->title != "", function ($q) use ($request) {
+            return $q->where('activity_title', 'like', '%'. $request->title. '%');
+        })
+        ->paginate(5);
+        if($request->ajax()) {
+            return view('dashboard.activities.usersList_partial', ['activities' => $activities]);
+        }
         return view('dashboard.activities.usersList', compact('activities'));
     }
 

@@ -23,9 +23,12 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         $users = User::role('user')->orderBy('id','DESC')->get();
+        if($request->ajax()) {
+            return response()->json($users);
+        }
         return view('dashboard.admin.usersList', compact('users'));
     }
 
