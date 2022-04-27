@@ -43,6 +43,8 @@ To make it look like this:
 # in your app directory
 # generate laravel APP_KEY
 $ php artisan key:generate
+# Create a symbolink link for storage folder
+$ php artisan storage:link
 
 # run database migration and seed
 $ php artisan migrate:refresh --seed
