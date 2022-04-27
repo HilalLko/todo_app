@@ -18,7 +18,7 @@ class MenuController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin');
+        $this->middleware('super');
     }
 
     public function index(Request $request){

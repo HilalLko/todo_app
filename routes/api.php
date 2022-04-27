@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\api\UsersController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,5 +16,8 @@ use Illuminate\Http\Request;
 Route::get('test', function () {
     return response()->json('Pong');
 });
-Route::post('/users/signin', [UserController::class, 'userLogin'])->name('api.users.login');
-Route::post('/users/signup', [UserController::class, 'createUser'])->name('api.users.register');
+Route::post('/users/signin', [UsersController::class, 'userLogin'])->name('api.users.login');
+Route::post('/users/signup', [UsersController::class, 'createUser'])->name('api.users.register');
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/users/signout', [UsersController::class, 'userLogout'])->name('api.b2b.users.logout');
+});

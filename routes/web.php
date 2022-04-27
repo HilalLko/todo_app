@@ -23,7 +23,7 @@ use App\Http\Controllers\admin\MenuElementController;
 */
 Route::get('/', function () {           return view('welcome'); });
 Route::prefix('sitemaster')->group(function () {
-    Route::get('/', [LoginController::class, 'showLoginForm']);
+    Route::get('/', [LoginController::class, 'showLoginForm'])->name('admin.login');
     Auth::routes();
     Route::group(['middleware' => ['auth','get.menu']], function () {
         Route::get('/dashboard',[ActivitiesController::class, 'index'])->name('admin.dashboard');

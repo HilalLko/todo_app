@@ -59,7 +59,6 @@ class CreateUserActivities implements ShouldQueue
             $users = User::role('user')->get();
             foreach ($users as $user) {
                $userActivity = new UserActivity;
-               $userActivity->global_activity_id    = $this->activity->id;
                $userActivity->activity_title        = $this->activity->activity_title;
                $userActivity->activity_description  = $this->activity->activity_description;
                $userActivity->activity_image        = $this->activity->activity_image;
