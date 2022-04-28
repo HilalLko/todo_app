@@ -121,4 +121,83 @@ class ActivitiesController extends Controller
         return response()->json($return);
     }
 
+
+    /**
+     * Function responsible for deleting Global Activty
+     * @param int $activity
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroyGlobalActivity(Request $request,$activity=0)
+    {
+        if ($activity > 0) {
+            $global = GlobalActivity::find($activity);
+            if($global){
+                $global->delete();
+                $request->session()->flash('message', 'Activity deleted');
+            }
+            return redirect()->route('admin.global_activities');
+        }
+        $request->session()->flash('message', 'Invalid activity id');
+        return redirect()->route('admin.global_activities'); 
+    }
+
+    /**
+     * Function responsible for deleting User Activty
+     * @param int $activity
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroyUserActivity(Request $request,$activity=0)
+    {
+        if ($activity > 0) {
+            $global = UserActivity::find($activity);
+            if($global){
+                $global->delete();
+                $request->session()->flash('message', 'Activity deleted');
+            }
+            return redirect()->route('admin.global_activities');
+        }
+        $request->session()->flash('message', 'Invalid activity id');
+        return redirect()->route('admin.global_activities'); 
+    }
+
+
+    /**
+     * Function responsible for showing edit User Activty Page/form
+     * @param int $activity
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function editUserActivity(Request $request,$activity=0)
+    {
+        if ($activity > 0) {
+            $userActivity = UserActivity::find($activity);
+            return view('dashboard.activities.usersactivityEdit', compact('userActivity'));
+        }
+        $request->session()->flash('message', 'Invalid activity id');
+        return redirect()->route('admin.user_activities'); 
+    }
+
+    /**
+     * Function responsible for showing edit User Activty Page/form
+     * @param int $activity
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateUserActivity(Request $request,$activity=0)
+    {
+        if ($activity > 0) {
+            $userActivity = UserActivity::find($activity);
+            $userActivity->activity_title       = $request->activity_title;
+            $userActivity->activity_description = $request->activity_description;
+            $userActivity->on_date              = $request->on_date;
+            $userActivity->save();
+            $request->session()->flash('message', 'User activity updated');
+            return redirect()->route('admin.user_activities');
+        }
+        $request->session()->flash('message', 'Invalid activity id');
+        return redirect()->route('admin.user_activities'); 
+    }
+
 }

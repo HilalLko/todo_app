@@ -17,7 +17,13 @@
         <td>{{ $activity->activity_description }}</td>
         <td>{{ $activity->user->name }}</td>
         <td>{{ $activity->on_date }}</td>
-        <td>{{ $activity->activity_image }}</td>                            
+        <td>
+          @if($activity->activity_image)
+            <img class="img-responsive" src="{{ Storage::url($activity->activity_image) }}" style="height: 100px;">
+          @else
+            N/A
+          @endif
+        </td>                            
         <td>
           <a href="{{ url('/sitemaster/users/' . $activity->id . '/edit') }}" class="btn btn-block btn-primary">Edit</a>
         </td>

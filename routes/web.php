@@ -30,7 +30,11 @@ Route::prefix('sitemaster')->group(function () {
         Route::get('/global-activities',[ActivitiesController::class, 'getGlobalActivities'])->name('admin.global_activities');
         Route::post('/global-activities',[ActivitiesController::class, 'addGlobalActivity'])->name('admin.activity.add');
         Route::get('/global-activities/{activity}',[ActivitiesController::class, 'getGlobalActivity'])->name('admin.activity.view');
-        Route::get('/user-activities',[ActivitiesController::class, 'getUserActivities'])->name('admin.global_activities');
+        Route::delete('/global-activities/{activity}/destroy',[ActivitiesController::class, 'destroyGlobalActivity'])->name('admin.global_activity_destory');
+        Route::get('/user-activities',[ActivitiesController::class, 'getUserActivities'])->name('admin.user_activities');
+        Route::delete('/user-activities/{activity}/destroy',[ActivitiesController::class, 'destroyUserActivity'])->name('admin.user_activity_destory');
+        Route::get('/user-activities/{activity}/edit',[ActivitiesController::class, 'editUserActivity'])->name('admin.user_activity_edit');
+        Route::put('/user-activities/{activity}',[ActivitiesController::class, 'updateUserActivity'])->name('admin.user_activity_update');
         Route::resource('resource/{table}/resource', ResourceController::class)->names([
             'index'     => 'resource.index',
             'create'    => 'resource.create',

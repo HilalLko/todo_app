@@ -53,15 +53,21 @@
                                 <td>{{ $activity->activity_description }}</td>
                                 <td>{{ $activity->user->name }}</td>
                                 <td>{{ $activity->on_date }}</td>
-                                <td>{{ $activity->activity_image }}</td>                            
                                 <td>
-                                  <a href="{{ url('/sitemaster/users/' . $activity->id . '/edit') }}" class="btn btn-block btn-primary">Edit</a>
+                                  @if($activity->activity_image)
+                                    <img class="img-responsive" src="{{ Storage::url($activity->activity_image) }}" style="height: 100px;">
+                                  @else
+                                    N/A
+                                  @endif
+                                </td>                            
+                                <td>
+                                  <a href="{{ route('admin.user_activity_edit',$activity->id) }}" class="btn btn-block btn-primary">Edit</a>
                                 </td>
                                 <td>
-                                  <form action="{{ route('users.destroy', $activity->id ) }}" method="POST">
+                                  <form action="{{ route('admin.user_activity_destory', $activity->id ) }}" method="POST">
                                       @method('DELETE')
-                                      @csrf
-                                      <button class="btn btn-block btn-danger">Delete Activity</button>
+                                      {{ csrf_field() }}
+                                      <button class="btn btn-block btn-danger" id="delete_activity">Delete Activity</button>
                                   </form>
                                 </td>
                               </tr>
@@ -82,6 +88,7 @@
 
 @section('javascript')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
   $( window ).on("load", function() {
     $.ajax({
@@ -119,5 +126,22 @@
           }
         });
     });
+    $('.btn-danger').on('click',function(e){
+        e.preventDefault();
+        var form = $(this).parents('form');
+        swal({ 
+          title: "Are you sure ?",
+          text: "You will not be able to recover this activity!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((confirmed) => {
+          if (confirmed) {
+            form.submit();
+          } else {
+            swal("Cancelled", "Selected  activity's information are still safe!", "error");   
+          }
+        });
+      });
 </script>
 @endsection
